@@ -102,6 +102,7 @@ public:
         return number;
     }
     static std::map <T*, std::atomic_uint*> data_base;
+
 private:
     T* _ptr;
 };
