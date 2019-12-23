@@ -87,7 +87,8 @@ public:
     }
     void reset() {
         this->~SharedPtr();
-        delete _ptr;
+        if (_ptr != nullptr)
+            delete _ptr;
     }
     void reset(T* ptr) {
         if (_ptr != nullptr) {
