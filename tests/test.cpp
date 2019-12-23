@@ -5,6 +5,7 @@
 
 TEST(Example, EmptyTest) {
 char *test_ptr1 = new char;
+char *test_ptr2 = new char;
 *test_ptr1 = 'a';
 
 SharedPtr<char> pointer1(test_ptr1);
@@ -16,7 +17,6 @@ EXPECT_EQ(pointer2.get(), pointer1.get());
 EXPECT_EQ(pointer1.use_count(), 2);
 EXPECT_EQ(pointer2.use_count(), 2);
 
-char *test_ptr2 = new char;
 *test_ptr2 = 'b';
 SharedPtr<char> pointer3(test_ptr2);
 EXPECT_EQ(*pointer3, *test_ptr2);
