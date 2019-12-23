@@ -89,11 +89,12 @@ public:
          this->~SharedPtr();
     }
     void reset(T* ptr) {
-        if (_ptr != nullptr)
+        if (_ptr != nullptr) {
             if ((*SharedPtr::data_base[_ptr]) != 0) {
                 (*SharedPtr::data_base[_ptr]) = 0;
                 SharedPtr::data_base.erase(_ptr);
             }
+        }
         //_ptr = nullptr;
         if (ptr == nullptr)
             return;
