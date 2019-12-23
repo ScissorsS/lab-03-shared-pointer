@@ -93,6 +93,7 @@ public:
             if ((*SharedPtr::data_base[_ptr]) != 0) {
                 (*SharedPtr::data_base[_ptr]) = 0;
                 SharedPtr::data_base.erase(_ptr);
+                _ptr = nullptr;
             }
         }
         //_ptr = nullptr;
