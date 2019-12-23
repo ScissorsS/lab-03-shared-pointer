@@ -37,7 +37,7 @@ EXPECT_EQ(pointer2.get(), nullptr);
 EXPECT_EQ(pointer1.use_count(), 0);
 EXPECT_EQ(pointer2.use_count(), 0);
 delete test_ptr2;
-pointer1.reset();
+//pointer1.reset();
 pointer2.reset();
 }
 int main(int argc, char **argv) {
