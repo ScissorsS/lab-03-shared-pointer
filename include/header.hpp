@@ -93,9 +93,10 @@ public:
     void reset(T* ptr) {
         if (_ptr != nullptr) {
             if ((*SharedPtr::data_base[_ptr]) != 0) {
-                (*SharedPtr::data_base[_ptr]) = 0;
+                delete SharedPtr::data_base[_ptr];
                 SharedPtr::data_base.erase(_ptr);
-                _ptr = nullptr;
+                delete _ptr;
+                //_ptr = nullptr;
             }
         }
         //_ptr = nullptr;
