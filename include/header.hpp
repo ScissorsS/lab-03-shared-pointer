@@ -31,6 +31,10 @@ public:
         r._ptr = nullptr;
     }
     ~SharedPtr() {
+        if (SharedPtr::data_base.find(_ptr)
+            == SharedPtr::data_base.end()) {
+            return;
+        }
         if (_ptr == nullptr)
             return;
         if (SharedPtr::data_base[_ptr] == nullptr)
@@ -44,6 +48,10 @@ public:
         _ptr = nullptr;
     }
     auto operator=(const SharedPtr& r) -> SharedPtr& {
+        if (SharedPtr::data_base.find(r._ptr)
+            == SharedPtr::data_base.end()) {
+            return *this;
+        }
         if (&r == this)
             return *this;
         this->~SharedPtr();
@@ -53,6 +61,10 @@ public:
         return *this;
     }
     auto operator=(SharedPtr&& r) -> SharedPtr& {
+        if (SharedPtr::data_base.find(r._ptr)
+            == SharedPtr::data_base.end()) {
+            return *this;
+        }
         if (&r == this)
             return *this;
         this->~SharedPtr();
@@ -78,17 +90,23 @@ public:
     }
     void reset(T* ptr) {
         if (_ptr != nullptr)
-            if ((*SharedPtr::data_base[_ptr]) != 0)
-                (*SharedPtr::data_base[_ptr])--;
-        _ptr = nullptr;
+            if ((*SharedPtr::data_base[_ptr]) != 0) {
+                (*SharedPtr::data_base[_ptr]) = 0;
+                SharedPtr::data_base.erase(_ptr);
+            }
+        //_ptr = nullptr;
         if (ptr == nullptr)
             return;
-        _ptr = ptr;
-        if ((*SharedPtr::data_base[_ptr]))
-            (*SharedPtr::data_base[_ptr])++;
-        SharedPtr::data_base[_ptr] = new atomic_uint(1);
+        //_ptr = ptr;
+        //if ((*SharedPtr::data_base[_ptr]))
+            //(*SharedPtr::data_base[_ptr])++;
+        //SharedPtr::data_base[_ptr] = new atomic_uint(1);
     }
     void Swap(SharedPtr& r) {
+        if (SharedPtr::data_base.find(r._ptr)
+            == SharedPtr::data_base.end()) {
+            return;
+        }
         T* temp;
         temp = this->_ptr;
         this->_ptr = r._ptr;
@@ -96,6 +114,10 @@ public:
         temp = nullptr;
     }
     auto use_count() const -> size_t {
+        if (SharedPtr::data_base.find(_ptr)
+            == SharedPtr::data_base.end()) {
+            return 0;
+        }
         if (_ptr == nullptr)
             return 0;
         size_t number = (*SharedPtr::data_base[_ptr]);
